@@ -1,0 +1,36 @@
+<div class="max-w-7xl mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6">🎁 Promociones</h1>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left">Código</th>
+          <th class="px-4 py-3 text-left">Nombre</th>
+          <th class="px-4 py-3 text-left">Tipo</th>
+          <th class="px-4 py-3 text-left">Valor</th>
+          <th class="px-4 py-3 text-left">Usos</th>
+          <th class="px-4 py-3 text-left">Estado</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y">
+        <%= for promo <- @promotions do %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 font-mono font-bold">{promo.code}</td>
+            <td class="px-4 py-3">{promo.name}</td>
+            <td class="px-4 py-3">{promo.type}</td>
+            <td class="px-4 py-3">{promo.value}</td>
+            <td class="px-4 py-3">{promo.uses_count} / {promo.max_uses || "∞"}</td>
+            <td class="px-4 py-3">
+              <%= if promo.active do %>
+                <span class="text-green-600 font-bold">✅ Activo</span>
+              <% else %>
+                <span class="text-red-600 font-bold">❌ Inactivo</span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

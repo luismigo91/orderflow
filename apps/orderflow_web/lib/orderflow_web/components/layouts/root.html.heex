@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title default="Orderflow" suffix=" · Phoenix Framework" phx-no-format>{assigns[:page_title]}</.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/js/app.js"}>
+    </script>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#2563eb" />
+    <script>
+      (() => {
+        const setTheme = (theme) => {
+          if (theme === "system") {
+            localStorage.removeItem("phx:theme");
+            document.documentElement.removeAttribute("data-theme");
+          } else {
+            localStorage.setItem("phx:theme", theme);
+            document.documentElement.setAttribute("data-theme", theme);
+          }
+        };
+        if (!document.documentElement.hasAttribute("data-theme")) {
+          setTheme(localStorage.getItem("phx:theme") || "system");
+        }
+        window.addEventListener("storage", (e) => e.key === "phx:theme" && setTheme(e.newValue || "system"));
+        
+        window.addEventListener("phx:set-theme", (e) => setTheme(e.target.dataset.phxTheme));
+      })();
+    </script>
+  </head>
+  <body>
+    <nav class="bg-gray-800 text-white p-4">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
+        <a href="/" class="text-xl font-bold">OrderFlow</a>
+        <div class="flex items-center space-x-4">
+          <a href="/" class="hover:text-gray-300">Inicio</a>
+          <a href="/login" class="hover:text-gray-300">Login</a>
+          <button onclick="document.documentElement.classList.toggle('dark')" class="text-xl">
+            🌙
+          </button>
+        </div>
+      </div>
+    </nav>
+    {@inner_content}
+    <script>
+      window.addEventListener("phx:download_csv", (e) => {
+        const blob = new Blob([e.detail.content], { type: "text/csv" });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.setAttribute("hidden", "");
+        a.setAttribute("href", url);
+        a.setAttribute("download", e.detail.filename);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    </script>
+  </body>
+</html>

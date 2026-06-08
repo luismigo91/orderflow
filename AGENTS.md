@@ -1,8 +1,8 @@
-# Agent Context: ElixirTest
+# Agent Context: OrderFlow
 
 Umbrella Phoenix 1.8 project with two apps:
-- `apps/elixir_test/` — domain logic, Ecto Repo, contexts
-- `apps/elixir_test_web/` — web interface, API, LiveView, assets
+- `apps/orderflow/` — domain logic, Ecto Repo, contexts
+- `apps/orderflow_web/` — web interface, API, LiveView, assets
 
 ## Daily workflow
 
@@ -19,23 +19,24 @@ mix precommit      # compile --warnings-as-errors, deps.unlock --unused, format,
 
 ## Architecture & boundaries
 
-- **App `:elixir_test`** (domain): owns `Repo`, schemas, migrations, seeds. Depends on `ecto_sql`, `postgrex`, `req`.
-- **App `:elixir_test_web`** (web): owns controllers, LiveViews, router, endpoint, assets. Depends on `:elixir_test` via `in_umbrella: true`.
-- Router has two top-level scopes:
-  - `scope "/"` → browser pipeline (`PageController`, future LiveViews)
-  - `scope "/api"` → API pipeline (`ElixirTestWeb.Api.*` controllers)
+- **App `:orderflow`** (domain): owns `Repo`, schemas, migrations, seeds. Depends on `ecto_sql`, `postgrex`, `req`.
+- **App `:orderflow_web`** (web): owns controllers, LiveViews, router, endpoint, assets. Depends on `:orderflow` via `in_umbrella: true`.
+- Router has three top-level scopes:
+  - `scope "/"` → browser pipeline (public pages, tracker)
+  - `scope "/admin"` → admin pipeline (dashboard, management)
+  - `scope "/api"` → API pipeline (REST endpoints)
 - Dev routes at `/dev/dashboard` and `/dev/mailbox` are gated by `dev_routes` config.
 
 ## Testing
 
-- Tests live in `apps/<app>/test/`. Run single file: `mix test apps/elixir_test_web/test/...`.
-- The `:elixir_test` app alias runs `ecto.create --quiet`, `ecto.migrate --quiet`, then `test`.
+- Tests live in `apps/<app>/test/`. Run single file: `mix test apps/orderflow_web/test/...`.
+- The `:orderflow` app alias runs `ecto.create --quiet`, `ecto.migrate --quiet`, then `test`.
 - Use `start_supervised!/1` for processes. Avoid `Process.sleep/1`; use `Process.monitor/1` + `assert_receive`.
 
 ## Database
 
 - PostgreSQL via Docker (`docker-compose.yml`). Credentials: `postgres/postgres@localhost:5432`.
-- Databases: `elixir_test_dev`, `elixir_test_test`.
+- Databases: `orderflow_dev`, `orderflow_test`.
 - Generate migrations with: `mix ecto.gen.migration name_using_underscores`.
 
 ## Assets & CSS
@@ -45,7 +46,7 @@ mix precommit      # compile --warnings-as-errors, deps.unlock --unused, format,
   @import "tailwindcss" source(none);
   @source "../css";
   @source "../js";
-  @source "../../lib/elixir_test_web";
+  @source "../../lib/orderflow_web";
   ```
 - Never use `@apply` in raw CSS. Only `app.js` and `app.css` bundles are supported; vendor deps must be imported there.
 

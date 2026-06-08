@@ -1,11 +1,11 @@
 import Config
 
 # Configure your database
-config :elixir_test, ElixirTest.Repo,
+config :orderflow, Orderflow.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "elixir_test_dev",
+  database: "orderflow_dev",
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -16,7 +16,7 @@ config :elixir_test, ElixirTest.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :elixir_test_web, ElixirTestWeb.Endpoint,
+config :orderflow_web, OrderflowWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}],
@@ -25,8 +25,8 @@ config :elixir_test_web, ElixirTestWeb.Endpoint,
   debug_errors: true,
   secret_key_base: "XeStWvB70DOATl0lym+Wj0dpKAKOBODqpuGqm15x9pBemB3G8lwtX6WZvMjTIDBU",
   watchers: [
-    esbuild: {Esbuild, :install_and_run, [:elixir_test_web, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:elixir_test_web, ~w(--watch)]}
+    esbuild: {Esbuild, :install_and_run, [:orderflow_web, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:orderflow_web, ~w(--watch)]}
   ]
 
 # ## SSL Support
@@ -53,7 +53,7 @@ config :elixir_test_web, ElixirTestWeb.Endpoint,
 # different ports.
 
 # Reload browser tabs when matching files change.
-config :elixir_test_web, ElixirTestWeb.Endpoint,
+config :orderflow_web, OrderflowWeb.Endpoint,
   live_reload: [
     web_console_logger: true,
     patterns: [
@@ -62,13 +62,13 @@ config :elixir_test_web, ElixirTestWeb.Endpoint,
       # Gettext translations
       ~r"priv/gettext/.*\.po$"E,
       # Router, Controllers, LiveViews and LiveComponents
-      ~r"lib/elixir_test_web/router\.ex$"E,
-      ~r"lib/elixir_test_web/(controllers|live|components)/.*\.(ex|heex)$"E
+      ~r"lib/orderflow_web/router\.ex$"E,
+      ~r"lib/orderflow_web/(controllers|live|components)/.*\.(ex|heex)$"E
     ]
   ]
 
 # Enable dev routes for dashboard and mailbox
-config :elixir_test_web, dev_routes: true
+config :orderflow_web, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :default_formatter, format: "[$level] $message\n"

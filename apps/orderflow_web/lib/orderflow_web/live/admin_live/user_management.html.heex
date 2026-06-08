@@ -1,0 +1,48 @@
+<div class="max-w-7xl mx-auto p-6">
+  <h1 class="text-3xl font-bold mb-6">👥 Gestión de Usuarios</h1>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left">Nombre</th>
+          <th class="px-4 py-3 text-left">Email</th>
+          <th class="px-4 py-3 text-left">Rol</th>
+          <th class="px-4 py-3 text-left">Teléfono</th>
+          <th class="px-4 py-3 text-left">Estado</th>
+          <th class="px-4 py-3 text-left">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y">
+        <%= for user <- @users do %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 font-medium">{user.name}</td>
+            <td class="px-4 py-3">{user.email}</td>
+            <td class="px-4 py-3">
+              <span class={"px-2 py-1 rounded-full text-xs font-bold " <> role_badge_class(user.role)}>
+                {role_label(user.role)}
+              </span>
+            </td>
+            <td class="px-4 py-3">{user.phone}</td>
+            <td class="px-4 py-3">
+              <%= if user.active do %>
+                <span class="text-green-600 font-bold">✅ Activo</span>
+              <% else %>
+                <span class="text-red-600 font-bold">❌ Inactivo</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3">
+              <button
+                phx-click="toggle_active"
+                phx-value-id={user.id}
+                class="text-sm text-blue-600 hover:text-blue-800"
+              >
+                {if user.active, do: "Desactivar", else: "Activar"}
+              </button>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

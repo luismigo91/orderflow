@@ -1,4 +1,4 @@
-defmodule ElixirTest.Umbrella.MixProject do
+defmodule OrderFlow.Umbrella.MixProject do
   use Mix.Project
 
   def project do

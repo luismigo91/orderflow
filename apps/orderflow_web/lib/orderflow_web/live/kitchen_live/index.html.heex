@@ -1,0 +1,68 @@
+<div class="min-h-screen bg-gray-900 text-white p-4">
+  <div class="max-w-7xl mx-auto">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold">🍳 Cocina</h1>
+      <div class="text-lg">
+        Pedidos activos: <span class="font-bold text-yellow-400">{length(@orders)}</span>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <%= for order <- @orders do %>
+        <div class={"rounded-lg p-4 border-2 " <> status_card_class(order.status)}>
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <div class="text-2xl font-bold">#{order.id}</div>
+              <div class="text-sm opacity-75">{order.customer_name}</div>
+              <div class="text-sm opacity-75">📞 {order.customer_phone}</div>
+            </div>
+            <div class={"px-3 py-1 rounded-full text-sm font-bold " <> status_badge_class(order.status)}>
+              {status_label(order.status)}
+            </div>
+          </div>
+
+          <div class="space-y-1 mb-4 text-sm">
+            <%= for item <- order.order_items do %>
+              <div class="flex justify-between">
+                <span>{item.quantity}x {item.product.name}</span>
+              </div>
+            <% end %>
+          </div>
+
+          <%= if order.status == :cooking do %>
+            <button
+              phx-click="advance_status"
+              phx-value-id={order.id}
+              phx-value-status="ready"
+              class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-lg transition"
+            >
+              ✅ Marcar Listo
+            </button>
+          <% end %>
+
+          <%= if order.status == :ready do %>
+            <button
+              phx-click="advance_status"
+              phx-value-id={order.id}
+              phx-value-status="delivering"
+              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition"
+            >
+              📦 Asignar Reparto
+            </button>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <%= if @orders == [] do %>
+      <div class="text-center py-20 text-gray-500">
+        <div class="text-6xl mb-4">☕</div>
+        <div class="text-xl">No hay pedidos activos</div>
+        <div class="text-sm">Los nuevos pedidos aparecerán aquí automáticamente</div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%!-- Helper functions --%>
+<%!-- These are defined in the component or inline --%>

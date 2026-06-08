@@ -3,12 +3,12 @@ version: "3.9"
 services:
   db:
     image: postgres:16-alpine
-    container_name: elixir_test_db
+    container_name: orderflow_db
     restart: unless-stopped
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: elixir_test_dev
+      POSTGRES_DB: orderflow_dev
     ports:
       - "5432:5432"
     volumes:
@@ -23,12 +23,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: elixir_test_web
+    container_name: orderflow_web
     restart: unless-stopped
     ports:
       - "4000:4000"
     environment:
-      DATABASE_URL: ecto://postgres:postgres@db/elixir_test_dev
+      DATABASE_URL: ecto://postgres:postgres@db/orderflow_dev
       SECRET_KEY_BASE: ${SECRET_KEY_BASE}
       POOL_SIZE: 10
     depends_on:

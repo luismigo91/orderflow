@@ -1,0 +1,64 @@
+<div class="max-w-4xl mx-auto p-6 h-screen flex flex-col">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="text-2xl font-bold">💬 Chat de Equipo</h1>
+    <div class="flex items-center gap-2">
+      <span class="text-sm text-gray-600">{length(@online_users)} online</span>
+      <div class="flex -space-x-2">
+        <%= for user <- Enum.take(@online_users, 5) do %>
+          <div
+            class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-xs font-bold border-2 border-white"
+            title={user.name}
+          >
+            {String.first(user.name)}
+          </div>
+        <% end %>
+        <%= if length(@online_users) > 5 do %>
+          <div class="w-8 h-8 rounded-full bg-gray-500 flex items-center justify-center text-white text-xs font-bold border-2 border-white">
+            +{length(@online_users) - 5}
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex-1 bg-gray-100 rounded-lg p-4 overflow-y-auto mb-4 space-y-2">
+    <%= for msg <- Enum.reverse(@messages) do %>
+      <div class="bg-white rounded-lg p-3 shadow">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="font-bold text-sm">{msg.user}</span>
+          <span class={"text-xs px-2 py-1 rounded-full " <> role_badge_class(msg.role)}>
+            {role_label(msg.role)}
+          </span>
+          <span class="text-xs text-gray-400">
+            {Calendar.strftime(msg.timestamp, "%H:%M")}
+          </span>
+        </div>
+        <p class="text-gray-800">{msg.text}</p>
+      </div>
+    <% end %>
+
+    <%= if @messages == [] do %>
+      <div class="text-center text-gray-400 py-8">
+        <div class="text-4xl mb-2">💬</div>
+        <p>No hay mensajes aún</p>
+      </div>
+    <% end %>
+  </div>
+
+  <form phx-submit="send_message" class="flex gap-2">
+    <input
+      type="text"
+      name="message"
+      required
+      placeholder="Escribe un mensaje..."
+      class="flex-1 rounded-lg border-gray-300 px-4 py-2"
+      autocomplete="off"
+    />
+    <button
+      type="submit"
+      class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition"
+    >
+      Enviar
+    </button>
+  </form>
+</div>

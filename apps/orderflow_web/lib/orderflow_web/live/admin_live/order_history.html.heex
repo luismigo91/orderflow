@@ -1,0 +1,42 @@
+<div class="max-w-7xl mx-auto p-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">📜 Historial de Pedidos</h1>
+    <button
+      phx-click="export_csv"
+      class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition"
+    >
+      📥 Exportar CSV
+    </button>
+  </div>
+
+  <div class="bg-white rounded-lg shadow overflow-hidden">
+    <table class="w-full text-sm">
+      <thead class="bg-gray-50">
+        <tr>
+          <th class="px-4 py-3 text-left">#</th>
+          <th class="px-4 py-3 text-left">Cliente</th>
+          <th class="px-4 py-3 text-left">Estado</th>
+          <th class="px-4 py-3 text-left">Total</th>
+          <th class="px-4 py-3 text-left">Fecha</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y">
+        <%= for order <- @orders do %>
+          <tr class="hover:bg-gray-50">
+            <td class="px-4 py-3 font-bold">#{order.id}</td>
+            <td class="px-4 py-3">{order.customer_name}</td>
+            <td class="px-4 py-3">
+              <span class={"px-2 py-1 rounded-full text-xs font-bold " <> status_badge_class(order.status)}>
+                {status_label(order.status)}
+              </span>
+            </td>
+            <td class="px-4 py-3">${order.total}</td>
+            <td class="px-4 py-3 text-gray-500">
+              {Calendar.strftime(order.inserted_at, "%d/%m/%Y %H:%M")}
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
