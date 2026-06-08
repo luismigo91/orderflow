@@ -15,7 +15,8 @@ defmodule OrderflowWeb.SessionLive.New do
         {:noreply,
          socket
          |> put_flash(:info, "Bienvenido, #{user.name}!")
-         |> push_navigate(to: redirect_path(user))}
+         |> push_navigate(to: redirect_path(user))
+         |> Phoenix.LiveView.Utils.put_session(:user_id, user.id)}
 
       {:error, :invalid_credentials} ->
         {:noreply, put_flash(socket, :error, "Email o contraseña incorrectos.")}

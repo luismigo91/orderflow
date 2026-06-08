@@ -35,7 +35,9 @@ defmodule OrderflowWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-    live "/login", SessionLive.New, :new
+    get "/login", PageController, :login
+    post "/login", SessionController, :create
+    get "/logout", SessionController, :delete
     live "/track/:id", OrderTrackerLive.Index, :index
     live "/menu/:code", MenuLive.Qr, :index
   end
