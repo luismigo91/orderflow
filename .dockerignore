@@ -1,0 +1,12 @@
+/_build
+/deps
+*.db
+*.db-journal
+/priv/static/assets/
+/assets/node_modules/
+/test
+/tmp
+.dockerignore
+Dockerfile
+README.md
+.env
