@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "api-testing": {
+      "source": "secondsky/claude-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/api-testing/skills/api-testing/SKILL.md",
+      "computedHash": "8a3fb3bbdbe93fcd0fd88042e95f9f7837de955c85331113a23631f7d916abed"
+    },
+    "elixir": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "elixir/SKILL.md",
+      "computedHash": "b8f9a58fc110ab05a805a1c4a82d3aeddaa8a739acee267bf0b7ec6f75002e8b"
+    }
+  }
+}
